@@ -50,7 +50,7 @@ all_statuses = list(sorted(all_statuses, key=lambda status: status["datestamp"],
 with open('/home/starptr/src/status-builder/template.html', 'r') as file:
     statuses_html = "\n".join(map(lambda status: (
         f'<div>'
-        f'  <p><a href="~{status["tildename"]}">{status["displayname"]}</a> {status["date"]}</p>'
+        f'  <p><a href="/~{status["tildename"]}">{status["displayname"]}</a> {status["date"]}</p>'
         f'  <p>{status["status"]}</p>'
         f'</div>'
     ), all_statuses))
