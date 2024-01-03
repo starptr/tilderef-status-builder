@@ -44,6 +44,9 @@ for path in status_dbs:
     
     all_statuses += valid_statuses
 
+# Sort by datestamp
+all_statuses = list(sorted(all_statuses, key=lambda status: status["datestamp"], reverse=True))
+
 with open('/home/starptr/src/status-builder/template.html', 'r') as file:
     statuses_html = "\n".join(map(lambda status: (
         f'<div>'
@@ -58,6 +61,10 @@ with open('/home/starptr/src/status-builder/template.html', 'r') as file:
     container = soup.select_one("#status-container")
     container.append(status_soup)
     script_dir = os.path.dirname(__file__)
-    with open(os.path.join(script_dir, "build_html/status.html"), 'w') as fout:
+    build_file_path = os.path.join(script_dir, "build_html/status.html")
+    def opener(path, flags):
+        return os.open(path, flags, 0o777)
+    with open(build_file_path, 'w', opener=opener) as fout:
         fout.write(str(soup))
+    #os.chmod(build_file_path, 0o777)
     print("Status page built successfully")
